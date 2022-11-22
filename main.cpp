@@ -5,7 +5,7 @@
    El led se tiene que encender durante dos segundos cuando se pulse 
    El boton de la placa funciona por nivel bajo
 */
-enum estados {apagado, encendido} estado;
+enum estados {apagado, encendido, esperandoSoltar} estado;
  
 Timer temporizador;
  
@@ -26,7 +26,16 @@ void estadoEncendido()
 {
     if(temporizador.read()>2.0f) {
         led=0;
+        estado=esperandoSoltar;
+
+    }
+}
+
+void estadoEsperandoSoltar()
+{
+    if(boton==1) {
         estado=apagado;
+
     }
 }
  
@@ -40,6 +49,9 @@ int main()
         switch(estado) {
             case apagado:
                 estadoApagado();
+                break;
+            case esperandoSoltar:
+                estadoEsperandoSoltar();
                 break;
             case encendido:
                 estadoEncendido();
